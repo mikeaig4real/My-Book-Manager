@@ -11,6 +11,8 @@ const showTasks = async () => {
     let token;
     if (user) {
       token = user.token
+      alert(`Welcome ${user.username}`);
+      welcomeHead.innerText = `task manager for ${user.username}`;
     }
     const {
       data: { tasks },
