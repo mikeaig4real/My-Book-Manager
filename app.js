@@ -17,7 +17,13 @@ const cors = require('cors');
 const xss = require('xss-clean');
 const rateLimit = require('express-rate-limit');
 
+// Swagger
+const swaggerUI = require('swagger-ui-express');
+const YAML = require('yamljs');
+const swaggerDOC = YAML.load('./swagger.yaml');
+
 // routes
+app.use('/api-doc', swaggerUI.serve, swaggerUI.setup(swaggerDOC));
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/auth', express.static('public/auth'));
 app.use('/api/v1/tasks', authenticateUser, tasksRouter);
