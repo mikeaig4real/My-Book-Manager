@@ -1,41 +1,41 @@
-const User = require('../models/User');
+const Admin = require('../models/Admin');
 const { StatusCodes } = require('http-status-codes');
 const { BadRequestError,UnauthenticatedError } = require('../errors');
 
-const registerUser = async (req, res) => {
-    const oldUser = await User.findOne({ username: req.body.username });
-    if (!oldUser) {
-        const user = await User.create({
+const registerAdmin = async (req, res) => {
+    const oldAdmin = await Admin.findOne({ username: req.body.username });
+    if (!oldAdmin) {
+        const admin = await Admin.create({
             ...req.body
         });
-        const token = user.getToken();
+        const token = admin.getToken();
         return res.status(StatusCodes.CREATED).json({
-            username: user.username,
+            username: admin.username,
             token
         });
     };
     throw new BadRequestError(`Sorry ${oldUser.username} has been taken try new one please...`)
 }
 
-const loginUser = async (req, res) => {
+const loginAdmin = async (req, res) => {
     const { username, password } = req.body;
     if (!username || !password) {
         throw new BadRequestError('Please provide complete login credentials');
     }
-    const user = await User.findOne({ username });
-    if (!user) {
+    const admin = await Admin.findOne({ username });
+    if (!admin) {
         throw new UnauthenticatedError('Invalid credentials');
     }
-    const isCorrect = await user.comparePwd(password);
+    const isCorrect = await admin.comparePwd(password);
     if (!isCorrect) {
         throw new UnauthenticatedError('password is incorrect,try again...');
     }
-    const token = user.getToken();
-    return res.status(StatusCodes.OK).json({ username: user.username, token });
+    const token = admin.getToken();
+    return res.status(StatusCodes.OK).json({ username: admin.username, token });
 }
 
 
 module.exports = {
-    registerUser,
-    loginUser,
+    registerAdmin,
+    loginAdmin,
 }
