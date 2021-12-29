@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const { getAllTasks,getSingleTask,createSingleTask,deleteSingleTask,updateSingleTask } = require('../controllers/tasks');
+const { getAllBooks,getSingleBook,createSingleBook,deleteSingleBook,updateSingleBook } = require('../controllers/books');
 
-router.route('/').get(getAllTasks).post(createSingleTask);
-router.route('/:id').get(getSingleTask).delete(deleteSingleTask).patch(updateSingleTask);
+router.route('/').post(createSingleBook);
+router.route('/:id').delete(deleteSingleBook).patch(updateSingleBook);
 
 
 module.exports = router;
